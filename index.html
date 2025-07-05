@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PP's Shopping Cart</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PP's Shopping Cart</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>PP's Shopping Cart</h1>
-    
-        <table id="cart-table" >
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Price (₹)</th>
-                    <th>Quantity</th>
-                    <th>Total (₹)</th>
-                </tr>
-            </thead>
-            
-            <tbody id="cart-items">
-            
-            </tbody>
 
-        <tfoot> 
-            <tr>
-                <td colspan="3"><b>Order Total</b></td>
-                <td id="order-total"><b>₹0.00</b></td>
-            </tr>
-        </tfoot>
-        </table>
+  <h1>PP's Shopping Cart</h1>
 
-        <button id="add-item">Add Item</button> 
-        <button id="remove-item">Remove Item</button>
+  <table id="cart-table">
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Price (₹)</th>
+        <th>Quantity</th>
+        <th>Total (₹)</th>
+      </tr>
+    </thead>
+    <tbody id="cart-items"></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"><b>Order Total</b></td>
+        <td id="order-total"><b>₹0.00</b></td>
+      </tr>
+    </tfoot>
+  </table>
 
-        <script src="script.js"></script>
-   
+  <div class="form-container">
+    <input type="text" id="item-name" placeholder="Item Name" />
+    <input type="number" id="item-price" placeholder="Price (₹)" />
+    <input type="number" id="item-qty" placeholder="Quantity" />
+    <div class="button-container">
+      <button id="add-item">Add Item</button>
+      <button id="remove-item">Remove Item</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

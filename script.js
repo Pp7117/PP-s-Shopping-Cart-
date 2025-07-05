@@ -1,77 +1,72 @@
-let cart =[];
- 
+let cart = [];
 
-document.getElementById("add-item").addEventListener('click',addItems);
+document.getElementById("add-item").addEventListener('click', addItems);
+document.getElementById("remove-item").addEventListener('click', removeItems);
 
-function addItems() 
-    {
-        let item = {
-            name: prompt("Enter item name:"),
-            price: parseFloat(prompt("Enter item price:")),
-            quantity: parseInt(prompt("Enter item quantity:")),
-            total: 0 
-        };
+function addItems()
+ {
+  const name = document.getElementById("item-name").value.trim();
+  const price = parseFloat(document.getElementById("item-price").value);
+  const quantity = parseInt(document.getElementById("item-qty").value);
 
-        if (isNaN(item.price) || isNaN(item.quantity) || item.name.trim() === "") 
-        {
-            alert("Invalid input. Please enter valid item details.");
-            return;
-        }
-        else
-        {
-            let Olditem = cart.find(i => i.name === item.name && i.price === item.price);
-            if(Olditem)
-            {
-                Olditem.quantity += item.quantity;
-            }
-            else
-            {
-                cart.push(item);
-            }
-            updateCart();
-       
-        }
-    }
+  if (!name || isNaN(price) || isNaN(quantity) || price <= 0 || quantity <= 0) {
+    alert("Please enter valid item details.");
+    return;
+  }
 
-document.getElementById("remove-item").addEventListener('click',removeItems);
+  const existing = cart.find(item => item.name.toLowerCase() === name.toLowerCase() && item.price === price);
 
-function removeItems() 
-    {
-        let itemName = prompt("Enter the name of the item to remove:");
-        let itemIndex = cart.findIndex(item => item.name === itemName);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    cart.push({ name, price, quantity });
+  }
 
-        if (itemIndex !== -1) 
-        {
-            cart.splice(itemIndex, 1);
-            updateCart();
-        } 
-        else 
-        {
-            alert("Item not found in the cart.");
-        }
-    }
-
-
-function updateCart() 
-{
-    let orderTotal=0;
-    let cartItems = document.getElementById("cart-items");
-    cartItems.innerHTML = "";
-
-    cart.forEach(item => 
-        {
-           let row = document.createElement("tr");
-           row.innerHTML = `
-               <td>${item.name}</td>
-               <td>${item.price.toFixed(2)}</td>
-               <td>${item.quantity}</td>
-               <td>₹${(item.price * item.quantity).toFixed(2)}</td>
-           `;
-           cartItems.appendChild(row);
-           orderTotal += item.price * item.quantity;
-        });
-
-    document.getElementById("order-total").textContent = `₹${orderTotal.toFixed(2)}`;
+  updateCart();
+  clearInputs();
 }
 
+function removeItems() {
+  const name = document.getElementById("item-name").value.trim();
 
+  if (!name) {
+    alert("Please enter the item name to remove.");
+    return;
+  }
+
+  const index = cart.findIndex(item => item.name.toLowerCase() === name.toLowerCase());
+
+  if (index !== -1) {
+    cart.splice(index, 1);
+    updateCart();
+    clearInputs();
+  } else {
+    alert("Item not found in the cart.");
+  }
+}
+
+function updateCart() {
+  const cartItems = document.getElementById("cart-items");
+  cartItems.innerHTML = "";
+  let total = 0;
+
+  cart.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td data-label="Item Name">${item.name}</td>
+      <td data-label="Price (₹)">₹${item.price.toFixed(2)}</td>
+      <td data-label="Quantity">${item.quantity}</td>
+      <td data-label="Total (₹)">₹${(item.price * item.quantity).toFixed(2)}</td>
+    `;
+    cartItems.appendChild(row);
+    total += item.price * item.quantity;
+  });
+
+  document.getElementById("order-total").textContent = `₹${total.toFixed(2)}`;
+}
+
+function clearInputs() {
+  document.getElementById("item-name").value = "";
+  document.getElementById("item-price").value = "";
+  document.getElementById("item-qty").value = "";
+}
